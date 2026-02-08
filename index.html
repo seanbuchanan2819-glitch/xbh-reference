@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XBH Quick Reference — MLB Statcast 2023–2025</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #0a0e17;
+    color: #e0e0e0;
+    min-height: 100vh;
+  }
+  .header {
+    background: linear-gradient(135deg, #0f1923 0%, #1a2332 100%);
+    padding: 18px 24px;
+    border-bottom: 2px solid #2a3a4a;
+    text-align: center;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+  .header .subtitle {
+    font-size: 13px;
+    color: #8899aa;
+    margin-top: 4px;
+  }
+  .legend-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: #0d1220;
+    border-bottom: 1px solid #1a2a3a;
+    flex-wrap: wrap;
+  }
+  .legend-bar .label { font-size: 11px; color: #8899aa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+  .legend-swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #ccc;
+  }
+  .legend-swatch .box {
+    width: 18px;
+    height: 14px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+  .tabs {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 16px 0;
+    background: #0d1220;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    border: 1px solid #2a3a4a;
+    border-bottom: none;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    background: #111827;
+    color: #8899aa;
+    transition: all 0.15s;
+  }
+  .tab:hover { background: #1a2332; color: #bbccdd; }
+  .tab.active {
+    background: #1a2942;
+    color: #ffffff;
+    border-color: #3a6a9a;
+    border-bottom: 2px solid #1a2942;
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .table-wrap {
+    overflow-x: auto;
+    padding: 12px 16px 24px;
+    background: #0d1220;
+  }
+  table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 13px;
+  }
+  th {
+    background: #1a2332;
+    color: #aabbcc;
+    font-weight: 700;
+    padding: 6px 8px;
+    border: 1px solid #2a3a4a;
+    text-align: center;
+    white-space: nowrap;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  th.corner {
+    background: #111827;
+    color: #6688aa;
+    font-size: 11px;
+    z-index: 3;
+  }
+  th.ev-label {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: #1a2332;
+  }
+  td {
+    padding: 5px 7px;
+    text-align: center;
+    border: 1px solid #1a2a3a;
+    font-weight: 700;
+    font-size: 14px;
+    min-width: 52px;
+    white-space: nowrap;
+    transition: transform 0.1s;
+  }
+  td:hover {
+    outline: 2px solid #ffffff88;
+    z-index: 5;
+    position: relative;
+  }
+  td.ev-header {
+    background: #1a2332;
+    color: #aabbcc;
+    font-weight: 700;
+    font-size: 12px;
+    position: sticky;
+    left: 0;
+    z-index: 1;
+  }
+  .how-to {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    font-size: 13px;
+    color: #8899aa;
+    line-height: 1.6;
+  }
+  .how-to h3 { color: #bbccdd; font-size: 14px; margin-bottom: 8px; }
+  .how-to .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .how-to .num {
+    background: #2a4a6a;
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .spray-diagram {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 4px;
+  }
+  .spray-diagram svg { max-width: 300px; }
+  td.na-cell {
+    background: #0a0e17 !important;
+    color: #333 !important;
+    font-size: 11px;
+  }
+  @media (max-width: 600px) {
+    .header h1 { font-size: 17px; }
+    table { font-size: 11px; }
+    td { padding: 4px 5px; min-width: 40px; font-size: 12px; }
+    .tab { padding: 6px 10px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>XBH% Quick Reference</h1>
+  <div class="subtitle">Exit Velocity × Launch Angle — MLB Statcast BIP, 2023–2025</div>
+</div>
+
+<div class="legend-bar">
+  <span class="label">XBH%:</span>
+  <span class="legend-swatch"><span class="box" style="background:#1a1a2e;"></span>0%</span>
+  <span class="legend-swatch"><span class="box" style="background:#2d4a22;"></span>1-5%</span>
+  <span class="legend-swatch"><span class="box" style="background:#3d6b1d;"></span>5-15%</span>
+  <span class="legend-swatch"><span class="box" style="background:#7a8c14;"></span>15-30%</span>
+  <span class="legend-swatch"><span class="box" style="background:#cc8800;"></span>30-50%</span>
+  <span class="legend-swatch"><span class="box" style="background:#dd4400;"></span>50-75%</span>
+  <span class="legend-swatch"><span class="box" style="background:#cc1111;"></span>75-90%</span>
+  <span class="legend-swatch"><span class="box" style="background:#ff2266;"></span>90%+</span>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="showTab('all')">All Fields</div>
+  <div class="tab" onclick="showTab('pull')">Pull Side</div>
+  <div class="tab" onclick="showTab('center')">Center</div>
+  <div class="tab" onclick="showTab('oppo')">Oppo Field</div>
+  <div class="tab" onclick="showTab('howto')">How to Use</div>
+</div>
+
+<div id="tab-all" class="tab-content active">
+  <div class="table-wrap"><table id="table-all"></table></div>
+</div>
+<div id="tab-pull" class="tab-content">
+  <div class="table-wrap"><table id="table-pull"></table></div>
+</div>
+<div id="tab-center" class="tab-content">
+  <div class="table-wrap"><table id="table-center"></table></div>
+</div>
+<div id="tab-oppo" class="tab-content">
+  <div class="table-wrap"><table id="table-oppo"></table></div>
+</div>
+<div id="tab-howto" class="tab-content">
+  <div class="how-to">
+    <h3>Real-Time XBH Probability Lookup</h3>
+    <div class="step"><span class="num">1</span><span>Note the <b>Exit Velocity</b> (EV) from the broadcast — find the row.</span></div>
+    <div class="step"><span class="num">2</span><span>Note the <b>Launch Angle</b> (LA) — find the column.</span></div>
+    <div class="step"><span class="num">3</span><span>The intersection shows XBH% — the probability that batted ball is an extra-base hit (2B, 3B, or HR).</span></div>
+    <div class="step"><span class="num">4</span><span>Use tabs to filter by spray direction if available. <b>Pull</b> = toward batter's pull side (-45° to -15°), <b>Center</b> = up the middle (-15° to 15°), <b>Oppo</b> = opposite field (15° to 45°).</span></div>
+    <h3 style="margin-top:16px;">Color Key</h3>
+    <div class="step"><span>🔵 <b>Dark/Blue</b> = Very unlikely XBH (0-5%)</span></div>
+    <div class="step"><span>🟢 <b>Green</b> = Low chance (5-15%)</span></div>
+    <div class="step"><span>🟡 <b>Yellow/Gold</b> = Moderate (15-30%)</span></div>
+    <div class="step"><span>🟠 <b>Orange</b> = Good chance (30-50%)</span></div>
+    <div class="step"><span>🔴 <b>Red/Pink</b> = High/certain XBH (50%+)</span></div>
+    <h3 style="margin-top:16px;">Data Source</h3>
+    <div class="step"><span>MLB Statcast Balls In Play, 2023–2025. XBH = 2B + 3B + HR rate on BIP.</span></div>
+  </div>
+</div>
+
+<script>
+// XBH% DATA — extracted from PDF
+// Each zone: array of rows [evRange, [la0-4, la4-8, la8-12, la12-16, la16-20, la20-24, la24-28, la28-32, la32-36, la36-40]]
+// null = no data
+
+const evRanges = ['80-83','83-86','86-89','89-92','92-95','95-98','98-101','101-104','104-107','107-110','110-113','113-116','116-119','119-122'];
+const laRanges = ['0-4','4-8','8-12','12-16','16-20','20-24','24-28','28-32','32-36','36-40'];
+
+// Spray -45 to -30 (Pull for RHB)
+const zone1 = [
+  [7,10,6,10,19,18,12,10,2,2],
+  [10,11,5,17,21,13,9,6,2,1],
+  [7,14,7,13,18,19,12,8,4,1],
+  [9,11,8,22,20,18,11,12,4,4],
+  [16,16,14,28,28,21,26,27,18,12],
+  [16,17,19,29,32,34,50,46,42,34],
+  [13,20,22,32,41,49,74,82,71,51],
+  [16,18,28,43,46,77,95,93,92,67],
+  [20,15,31,46,62,91,98,100,100,85],
+  [14,15,37,56,70,96,99,100,98,93],
+  [15,18,40,53,81,98,100,100,94,100],
+  [29,21,62,63,77,100,100,100,100,null],
+  [50,20,33,100,100,100,null,null,100,null],
+  [0,null,null,null,null,null,null,null,null,null]
+];
+
+// Spray -30 to -15
+const zone2 = [
+  [0,0,0,0,0,1,2,1,0,0],
+  [1,0,1,1,1,4,1,0,0,0],
+  [1,1,0,1,4,1,2,1,1,0],
+  [1,1,2,3,3,3,1,0,0,0],
+  [0,0,1,4,10,9,11,10,4,3],
+  [0,1,4,8,15,20,31,30,14,3],
+  [0,1,4,13,25,53,65,58,37,16],
+  [1,1,4,23,42,71,90,87,68,41],
+  [1,2,10,30,61,91,99,96,88,67],
+  [1,5,14,30,69,93,100,100,97,80],
+  [0,5,15,39,81,100,100,100,100,100],
+  [0,4,23,52,80,100,100,100,100,null],
+  [0,0,60,100,80,80,100,null,null,null],
+  [null,0,100,null,null,null,null,null,null,null]
+];
+
+// Spray -15 to 0
+const zone3 = [
+  [0,0,0,0,2,4,2,1,0,0],
+  [0,0,0,2,2,4,1,0,0,0],
+  [0,1,2,2,1,5,1,1,0,1],
+  [1,1,2,3,7,4,1,0,2,1],
+  [0,2,2,6,12,11,4,2,1,1],
+  [1,2,4,13,18,13,10,6,3,0],
+  [1,1,3,7,13,13,19,16,6,1],
+  [1,2,10,16,22,33,47,43,24,5],
+  [3,7,13,29,43,72,82,72,47,19],
+  [2,7,25,43,64,90,95,90,69,25],
+  [7,18,42,75,100,100,100,100,100,100],
+  [11,28,42,75,100,100,100,100,100,null],
+  [100,25,50,25,100,100,null,null,100,null],
+  [null,null,null,100,100,null,null,null,null,null]
+];
+
+// Spray 0 to 15
+const zone4 = [
+  [1,0,0,0,1,2,1,0,1,0],
+  [0,1,0,0,2,3,2,2,0,0],
+  [0,1,1,3,3,2,2,0,0,0],
+  [0,1,0,3,8,6,4,2,0,0],
+  [0,0,2,4,10,5,4,2,1,0],
+  [0,2,3,7,15,11,5,3,1,0],
+  [1,1,5,10,13,19,19,15,5,1],
+  [1,2,8,21,45,72,86,82,63,33],
+  [2,4,16,29,55,88,97,93,84,59],
+  [2,7,20,32,67,94,99,99,94,81],
+  [4,8,23,50,73,97,100,100,100,100],
+  [0,21,25,46,80,100,100,75,100,100],
+  [0,0,0,100,100,100,100,null,null,null],
+  [0,null,null,null,null,null,null,null,null,null]
+];
+
+// Spray 15 to 30
+const zone5 = [
+  [1,0,0,0,1,3,3,0,0,0],
+  [0,0,0,0,1,3,2,0,0,0],
+  [0,0,0,1,4,4,1,1,0,0],
+  [0,0,0,4,5,7,3,2,1,0],
+  [1,1,2,5,9,6,7,6,3,1],
+  [1,1,2,9,19,21,29,21,10,2],
+  [0,2,5,16,26,38,59,55,32,11],
+  [1,2,8,21,45,72,86,82,63,33],
+  [2,4,16,29,55,88,97,93,84,59],
+  [2,7,20,32,67,94,99,99,94,81],
+  [4,8,23,50,73,97,100,100,100,100],
+  [0,21,25,46,80,100,100,75,100,100],
+  [0,0,0,100,67,100,100,null,100,null],
+  [null,null,null,null,null,null,null,null,null,null]
+];
+
+// Spray 30 to 45
+const zone6 = [
+  [3,3,3,7,10,10,7,3,1,1],
+  [1,2,4,12,10,10,5,5,1,0],
+  [1,7,3,14,8,12,9,4,2,1],
+  [3,6,6,13,12,15,9,5,5,2],
+  [6,2,10,14,20,15,22,24,15,4],
+  [2,6,13,22,22,28,36,47,41,25],
+  [4,7,7,23,29,48,68,73,70,40],
+  [7,7,22,26,40,66,92,95,93,80],
+  [5,9,25,34,48,83,97,99,96,94],
+  [6,9,27,41,56,91,99,100,100,97],
+  [4,17,33,39,75,94,100,100,100,100],
+  [0,15,44,56,73,95,100,100,100,100],
+  [0,0,50,100,null,100,100,100,null,null],
+  [null,0,100,0,100,null,null,null,null,null]
+];
+
+const allZones = [zone1, zone2, zone3, zone4, zone5, zone6];
+
+// Compute averages
+function avgZones(zones) {
+  const result = [];
+  for (let r = 0; r < 14; r++) {
+    const row = [];
+    for (let c = 0; c < 10; c++) {
+      let sum = 0, count = 0;
+      for (const z of zones) {
+        if (z[r] && z[r][c] !== null && z[r][c] !== undefined) {
+          sum += z[r][c];
+          count++;
+        }
+      }
+      row.push(count > 0 ? Math.round(sum / count) : null);
+    }
+    result.push(row);
+  }
+  return result;
+}
+
+const allFieldsData = avgZones(allZones);
+const pullData = avgZones([zone1, zone2]); // -45 to -15
+const centerData = avgZones([zone3, zone4]); // -15 to 15
+const oppoData = avgZones([zone5, zone6]); // 15 to 45
+
+function getColor(val) {
+  if (val === null) return { bg: '#0a0e17', fg: '#333' };
+  if (val <= 0)  return { bg: '#12131f', fg: '#445' };
+  if (val <= 2)  return { bg: '#1a1f2e', fg: '#667' };
+  if (val <= 5)  return { bg: '#243422', fg: '#8a8' };
+  if (val <= 10) return { bg: '#2d5520', fg: '#afa' };
+  if (val <= 15) return { bg: '#3d6b1d', fg: '#cfc' };
+  if (val <= 20) return { bg: '#5a7a18', fg: '#ffe' };
+  if (val <= 30) return { bg: '#7a8c14', fg: '#fff' };
+  if (val <= 40) return { bg: '#aa7700', fg: '#fff' };
+  if (val <= 50) return { bg: '#cc7700', fg: '#fff' };
+  if (val <= 60) return { bg: '#dd5500', fg: '#fff' };
+  if (val <= 75) return { bg: '#dd3300', fg: '#fff' };
+  if (val <= 90) return { bg: '#cc1111', fg: '#fff' };
+  return { bg: '#ee1155', fg: '#fff' };
+}
+
+function buildTable(tableId, data) {
+  const table = document.getElementById(tableId);
+  let html = '<thead><tr><th class="corner">EV \\ LA</th>';
+  for (const la of laRanges) {
+    html += `<th>${la}°</th>`;
+  }
+  html += '</tr></thead><tbody>';
+  for (let r = 0; r < 14; r++) {
+    html += `<tr><td class="ev-header">${evRanges[r]}</td>`;
+    for (let c = 0; c < 10; c++) {
+      const val = data[r][c];
+      if (val === null) {
+        html += '<td class="na-cell">—</td>';
+      } else {
+        const clr = getColor(val);
+        html += `<td style="background:${clr.bg};color:${clr.fg};">${val}%</td>`;
+      }
+    }
+    html += '</tr>';
+  }
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+buildTable('table-all', allFieldsData);
+buildTable('table-pull', pullData);
+buildTable('table-center', centerData);
+buildTable('table-oppo', oppoData);
+
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
